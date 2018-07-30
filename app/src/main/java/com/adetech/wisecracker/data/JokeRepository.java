@@ -21,76 +21,6 @@ public class JokeRepository
     private JokeDao mJokeDao;
     private Application mApplication;
 
-//    private  String json = "[\n" +
-//        "  {\n" +
-//        "    \"ID\": 1,\n" +
-//        "    \"Joke\": \"What did the bartender say to the jumper cables? You better not try to start anything.\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 2,\n" +
-//        "    \"Joke\": \"Don't you hate jokes about German sausage? They're the wurst!\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 3,\n" +
-//        "    \"Joke\": \"Two artists had an art contest... It ended in a draw\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 4,\n" +
-//        "    \"Joke\": \"Why did the chicken cross the playground? To get to the other slide.\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 5,\n" +
-//        "    \"Joke\": \"What gun do you use to hunt a moose? A moosecut!\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 6,\n" +
-//        "    \"Joke\": \"If life gives you melons, you might have dyslexia.\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 7,\n" +
-//        "    \"Joke\": \"Broken pencils... ...are pointless.\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 8,\n" +
-//        "    \"Joke\": \"What did one snowman say to the other snowman? 'Do you smell carrots?'\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 9,\n" +
-//        "    \"Joke\": \"How many hipsters does it take to change a lightbulb? It's a really obscure number. You've probably never heard of it.\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 10,\n" +
-//        "    \"Joke\": \"Where do sick boats go? The dock!\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 11,\n" +
-//        "    \"Joke\": \"I like my slaves like I like my coffee: Free.\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 12,\n" +
-//        "    \"Joke\": \"My girlfriend told me she was leaving me because I keep pretending to be a Transformer... I said, No, wait! I can change!\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 13,\n" +
-//        "    \"Joke\": \"Old Chinese proverb: Man who not shower in 7 days makes one reek.\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 14,\n" +
-//        "    \"Joke\": \"What did the owner of a brownie factory say when his factory caught fire? \\\"I'm getting the fudge outta here!\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 15,\n" +
-//        "    \"Joke\": \"What form of radiation bakes you cookies? A gramma ray\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 16,\n" +
-//        "    \"Joke\": \"Bee jokes, courtesy of my niece (age 8). What did the bee use to dry off after swimming? A *bee*ch towel. What did the bee use to get out the tangles? A honeycomb.\"\n" +
-//        "  },\n" +
-//        "  {\n" +
-//        "    \"ID\": 17,\n" +
-//        "    \"Joke\": \"What's the loudest economic system? CAPITALISM\"\n" +
-//        "  }]";
-
     public JokeRepository(Application application)
     {
         JokeRoomDatabase db = JokeRoomDatabase.getINSTANCE(application);
@@ -202,7 +132,7 @@ public class JokeRepository
     {
         Gson mGson = new Gson();
 
-//TODO optimise json file reading
+//TODO optimise read operation
 
         public String loadJSONFromAsset(InputStream is)
         {

@@ -1,4 +1,4 @@
-package com.adetech.wisecracker.ui;
+package com.adetech.wisecracker.ui.list;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -25,4 +25,6 @@ public class JokeListViewModel extends AndroidViewModel
     {
         return  mJokeList;
     }
+
+
 }
