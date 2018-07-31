@@ -1,9 +1,7 @@
 package com.adetech.wisecracker.ui.list;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -21,17 +19,20 @@ public class JokeListAdapter extends RecyclerView.Adapter<JokeListAdapter.JokeLi
 
     private final JokeListAdapterOnItemClickHandler mClickHandler;
 
+    private final ShowJokeSaveItemCLickHandler mLongClickHandler;
+
     private final Context mContext;
 
     private List<Joke>  mJokes;
 
 
 
-    JokeListAdapter(@NonNull Context context, JokeListAdapterOnItemClickHandler clickHandler)
+    JokeListAdapter(@NonNull Context context, JokeListAdapterOnItemClickHandler clickHandler, ShowJokeSaveItemCLickHandler longClickHandler)
     {
 
         mContext = context;
         this.mClickHandler = clickHandler;
+        mLongClickHandler = longClickHandler;
     }
 
     @NonNull
@@ -64,13 +65,17 @@ public class JokeListAdapter extends RecyclerView.Adapter<JokeListAdapter.JokeLi
     }
 
 
-
     public interface JokeListAdapterOnItemClickHandler {
         void onItemClick( String joke);
     }
 
+    public interface ShowJokeSaveItemCLickHandler
+    {
+       void onItemLongClicked(String joke);
+    }
 
-    public class JokeListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+
+    public class JokeListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener
     {
         private TextView jokeTextView;
 
@@ -80,6 +85,7 @@ public class JokeListAdapter extends RecyclerView.Adapter<JokeListAdapter.JokeLi
             jokeTextView = view.findViewById(R.id.joke);
 
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
 
         @Override
@@ -92,37 +98,14 @@ public class JokeListAdapter extends RecyclerView.Adapter<JokeListAdapter.JokeLi
         }
 
 
-//        private ItemTouchHelper.Callback createHelpetCallback()
-//        {
-//            ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)
-//            {
-//                @Override
-//                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target)
-//                {
-//                    return false;
-//                }
-//
-//                @Override
-//                public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive)
-//                {
-//                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-//
-//                    View itemView = viewHolder.itemView;
-//                    int itemHeight = itemView.getBottom()  - itemView.getTop();
-//
-//
-//                }
-//
-//                @Override
-//                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction)
-//                {
-//                    String joke = mJokes.get(viewHolder.getAdapterPosition()).getJoke();
-//
-//
-//                }
-//            }
-//        }
+        @Override
+        public boolean onLongClick(View view)
+        {
+            int adapterPostion = getAdapterPosition();
+            String joke = mJokes.get(adapterPostion).getJoke();
 
-
+            mLongClickHandler.onItemLongClicked(joke);
+            return  true;
+        }
     }
 }

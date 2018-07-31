@@ -26,5 +26,12 @@ public class JokeListViewModel extends AndroidViewModel
         return  mJokeList;
     }
 
+    void saveJoke(String jokeString)
+    {
+        Joke joke = new Joke(jokeString);
+
+        mRepository.insertJoke(joke);
+    }
+
 
 }

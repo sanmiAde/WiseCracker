@@ -10,6 +10,11 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "joke_table")
 public class Joke
 {
+    public void setId(@NonNull int id)
+    {
+        mId = id;
+    }
+
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
@@ -21,10 +26,10 @@ public class Joke
     private String mJoke;
 
 
-    public Joke(@NonNull String joke, int id)
+    public Joke(@NonNull String joke)
     {
         this.mJoke = joke;
-        this.mId = id;
+
     }
 
     @NonNull
