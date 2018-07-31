@@ -26,6 +26,7 @@ public class JokeRepository
         JokeRoomDatabase db = JokeRoomDatabase.getINSTANCE(application);
         mJokeDao = db.mJokeDao();
         mApplication = application;
+        mAllJokes = mJokeDao.getAllJokes();
 
     }
 

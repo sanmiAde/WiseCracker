@@ -15,7 +15,7 @@ public interface JokeDao
     @Insert
     void insert(Joke joke);
 
-    @Query("SELECT * FROM joke_table ORDER BY id")
+    @Query("SELECT *  FROM joke_table ORDER BY id")
     LiveData<List<Joke>> getAllJokes();
 
     @Query("DELETE FROM joke_table")

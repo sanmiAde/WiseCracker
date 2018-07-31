@@ -18,6 +18,7 @@ public class Joke
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
+    @SerializedName("ID")
     private int mId;
 
     @NonNull

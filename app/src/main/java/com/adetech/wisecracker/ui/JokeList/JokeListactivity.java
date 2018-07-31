@@ -40,7 +40,7 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
     {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_jokes_acitivity);
+        setContentView(R.layout.list_jokes);
 
        mAdapter = setupRecyclerView();
 
