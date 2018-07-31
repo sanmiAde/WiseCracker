@@ -1,4 +1,4 @@
-package com.adetech.wisecracker.ui.list;
+package com.adetech.wisecracker.ui.JokeList;
 
 
 import android.arch.lifecycle.Observer;
@@ -20,22 +20,20 @@ import android.widget.Toast;
 
 import com.adetech.wisecracker.R;
 import com.adetech.wisecracker.data.database.Joke;
+import com.adetech.wisecracker.ui.savedJokeList.SavedJokeListActivity;
 
 import java.util.Collections;
 import java.util.List;
 
 
-public class JokeListactivity extends AppCompatActivity implements JokeListAdapter.JokeListAdapterOnItemClickHandler , JokeListAdapter.ShowJokeSaveItemCLickHandler
+public class JokeListactivity extends AppCompatActivity implements JokeListAdapter.JokeListAdapterOnItemClickHandler, JokeListAdapter.ShowJokeSaveItemCLickHandler
 {
     private JokeListViewModel mMainActivityViewModel;
 
     private RecyclerView mRecyclerView;
 
     private ProgressBar mLoadingIndicator;
-
-    private Boolean isSaveVisible = false;
-
-
+    private JokeListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +42,7 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_jokes_acitivity);
 
-        final JokeListAdapter  adapter = setupRecyclerView();
+       mAdapter = setupRecyclerView();
 
         mMainActivityViewModel = ViewModelProviders.of(this).get(JokeListViewModel.class);
 
@@ -53,10 +51,12 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
             @Override
             public void onChanged(@Nullable List<Joke> jokes)
             {
-                 Collections.shuffle(jokes);
-                 adapter.setJokes(jokes);
+                Collections.shuffle(jokes);
+                mAdapter.setJokes(jokes);
             }
         });
+
+
     }
 
 
@@ -65,38 +65,52 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
         mRecyclerView = findViewById(R.id.recyclerview_jokeList);
         mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
 
-       final JokeListAdapter adapter = new JokeListAdapter(this,this, this);
-       mRecyclerView.setAdapter(adapter);
-       mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final JokeListAdapter adapter = new JokeListAdapter(this, this, this);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-       return adapter;
+        return adapter;
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-      getMenuInflater().inflate(R.menu.joke_list, menu);
+        getMenuInflater().inflate(R.menu.joke_list, menu);
 
-      return  true;
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-       int id = item.getItemId();
+        int id = item.getItemId();
 
-       if(id == R.id.save)
-       {
-           return true;
-       }
+        if (id == R.id.show_saved)
+        {
+            Intent intent = SavedJokeListActivity.newIntent(this);
+            startActivity(intent);
+            return true;
+        }
+
+        if(id == R.id.shuffleJokes)
+        {
+            List<Joke> jokes = mMainActivityViewModel.getJokeList().getValue();
+            if(jokes != null)
+            {
+                Collections.shuffle(jokes);
+                mAdapter.notifyDataSetChanged();
+            }
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void showJokeDataView() {
+    private void showJokeDataView()
+    {
         // First, hide the loading indicator
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         // Finally, make sure the weather data is visible
@@ -104,8 +118,8 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
     }
 
 
-
-    private void showLoading() {
+    private void showLoading()
+    {
         // Then, hide the weather data
         mRecyclerView.setVisibility(View.INVISIBLE);
         // Finally, show the loading indicator
@@ -126,7 +140,7 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
 
 
     @Override
-    public void  onItemLongClicked(final String joke)
+    public void onItemLongClicked(final String joke)
     {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
@@ -136,15 +150,19 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
         alertDialogBuilder
                 .setMessage("You know the drill.")
                 .setCancelable(false)
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
                         mMainActivityViewModel.saveJoke(joke);
-                        
+
                         Toast.makeText(JokeListactivity.this, "Joke saved", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
+                .setNegativeButton("No", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
 
                         dialog.cancel();
                     }
@@ -155,4 +173,4 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
         alertDialog.show();
     }
 
-    }
+}

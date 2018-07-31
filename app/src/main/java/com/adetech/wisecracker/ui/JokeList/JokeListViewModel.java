@@ -1,4 +1,4 @@
-package com.adetech.wisecracker.ui.list;
+package com.adetech.wisecracker.ui.JokeList;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -18,7 +18,7 @@ public class JokeListViewModel extends AndroidViewModel
     {
         super(application);
         mRepository = new JokeRepository(application);
-        mJokeList = mRepository.getAllJokes();
+        mJokeList = mRepository.getAllJokesJson();
     }
 
     LiveData<List<Joke>> getJokeList()

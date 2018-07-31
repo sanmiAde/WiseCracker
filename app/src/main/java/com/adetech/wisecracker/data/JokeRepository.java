@@ -26,10 +26,10 @@ public class JokeRepository
         JokeRoomDatabase db = JokeRoomDatabase.getINSTANCE(application);
         mJokeDao = db.mJokeDao();
         mApplication = application;
-        mAllJokes = mJokeDao.getAllJokes();
+
     }
 
-    LiveData<List<Joke>> getAllJokesFromDb()
+    public LiveData<List<Joke>> getAllJokesFromDb()
     {
         return mAllJokes;
     }
@@ -49,7 +49,12 @@ public class JokeRepository
         new deleteAllAsyncTask(mJokeDao).execute();
     }
 
-    public LiveData<List<Joke>> getAllJokes()
+    public void deleteJokeById(int id)
+    {
+        new deleteJokeByIdAsyncTask(mJokeDao).execute(id);
+    }
+
+    public LiveData<List<Joke>> getAllJokesJson()
     {
 
         return new convertJsonToJokes().doInBackground(getInputStreamFromAsset());
@@ -70,6 +75,18 @@ public class JokeRepository
         }
 
         return is;
+    }
+
+    private static class GetAllJokesFromDbAsyncTask extends AsyncTask<Void, Void, LiveData<List<Joke>>>
+    {
+        private JokeDao mJokeDao;
+
+        @Override
+        protected LiveData<List<Joke>> doInBackground(Void... voids)
+        {
+            return mJokeDao.getAllJokes();
+
+        }
     }
 
     private static class insertAsyncTask extends AsyncTask<Joke, Void, Void>
@@ -163,6 +180,25 @@ public class JokeRepository
             liveDataJoke.setValue(jokes);
 
             return liveDataJoke;
+        }
+    }
+
+    private static class deleteJokeByIdAsyncTask extends AsyncTask<Integer, Void, Void>
+    {
+        private JokeDao mJokeDao;
+
+        public deleteJokeByIdAsyncTask(JokeDao jokeDao)
+        {
+            mJokeDao = jokeDao;
+        }
+
+
+
+        @Override
+        protected Void doInBackground(Integer... integers)
+        {
+            mJokeDao.deleteJokeById(integers[0]);
+            return null;
         }
     }
 }

@@ -11,4 +11,7 @@
         android:id="@+id/show_saved"
         android:title="Saved Jokes"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/shuffleJokes"
+        android:title="Shuffle" />
 </menu>
