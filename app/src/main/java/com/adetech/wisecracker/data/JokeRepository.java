@@ -4,16 +4,24 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.adetech.wisecracker.data.database.Joke;
 import com.adetech.wisecracker.data.database.JokeDao;
 import com.adetech.wisecracker.data.database.JokeRoomDatabase;
+import com.adetech.wisecracker.data.network.DadzJokeInstance;
+import com.adetech.wisecracker.data.network.GetJokeService;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class JokeRepository
 {
@@ -33,6 +41,35 @@ public class JokeRepository
     public LiveData<List<Joke>> getAllJokesFromDb()
     {
         return mAllJokes;
+    }
+
+    public LiveData<List<Joke>> getJokesFromHazDadz()
+    {
+        GetJokeService service = DadzJokeInstance.getRetrofitInstance().create(GetJokeService.class);
+
+        Call<List<Joke>> call = service.getJokes();
+        final MutableLiveData<List<Joke>> jokesLiveData = new MutableLiveData<>();
+
+        call.enqueue(new Callback<List<Joke>>()
+        {
+            @Override
+            public void onResponse(Call<List<Joke>> call, Response<List<Joke>> response)
+            {
+                List<Joke> jokes;
+                jokes = response.body();
+
+                jokesLiveData.postValue(jokes);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Joke>> call, Throwable t)
+            {
+                Log.d("network", t.getMessage() );
+            }
+        });
+
+        return   jokesLiveData;
     }
 
     public void insertJoke(Joke joke)
@@ -78,6 +115,7 @@ public class JokeRepository
         return is;
     }
 
+    
     private static class GetAllJokesFromDbAsyncTask extends AsyncTask<Void, Void, LiveData<List<Joke>>>
     {
         private JokeDao mJokeDao;

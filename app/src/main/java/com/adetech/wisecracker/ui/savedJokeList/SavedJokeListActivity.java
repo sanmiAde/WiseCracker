@@ -31,7 +31,6 @@ public class SavedJokeListActivity extends AppCompatActivity implements  SavedJo
 
     private RecyclerView mRecyclerView;
 
-    private ProgressBar mLoadingIndicator;
     private SavedJokeListAdapter mAdapter;
 
     public static Intent newIntent(Context packageContext) {
@@ -64,7 +63,6 @@ public class SavedJokeListActivity extends AppCompatActivity implements  SavedJo
     private SavedJokeListAdapter setupRecyclerView()
     {
         mRecyclerView = findViewById(R.id.recyclerview_jokeList);
-        mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
 
         final SavedJokeListAdapter adapter = new  SavedJokeListAdapter(this, this, this);
         mRecyclerView.setAdapter(adapter);

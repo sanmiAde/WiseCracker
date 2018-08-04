@@ -1,6 +1,7 @@
 package com.adetech.wisecracker.ui.JokeList;
 
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 
@@ -32,7 +33,6 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
 
     private RecyclerView mRecyclerView;
 
-    private ProgressBar mLoadingIndicator;
     private JokeListAdapter mAdapter;
 
     @Override
@@ -42,17 +42,17 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_jokes);
 
-       mAdapter = setupRecyclerView();
-
+        mAdapter = setupRecyclerView();
         mMainActivityViewModel = ViewModelProviders.of(this).get(JokeListViewModel.class);
-
         mMainActivityViewModel.getJokeList().observe(this, new Observer<List<Joke>>()
         {
             @Override
             public void onChanged(@Nullable List<Joke> jokes)
             {
+
                 Collections.shuffle(jokes);
                 mAdapter.setJokes(jokes);
+
             }
         });
 
@@ -63,7 +63,6 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
     private JokeListAdapter setupRecyclerView()
     {
         mRecyclerView = findViewById(R.id.recyclerview_jokeList);
-        mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
 
         final JokeListAdapter adapter = new JokeListAdapter(this, this, this);
         mRecyclerView.setAdapter(adapter);
@@ -108,23 +107,6 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void showJokeDataView()
-    {
-        // First, hide the loading indicator
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
-        // Finally, make sure the weather data is visible
-        mRecyclerView.setVisibility(View.VISIBLE);
-    }
-
-
-    private void showLoading()
-    {
-        // Then, hide the weather data
-        mRecyclerView.setVisibility(View.INVISIBLE);
-        // Finally, show the loading indicator
-        mLoadingIndicator.setVisibility(View.VISIBLE);
-    }
 
     @Override
     public void onItemClick(String joke)
