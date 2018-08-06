@@ -13,15 +13,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.adetech.wisecracker.R;
 import com.adetech.wisecracker.data.database.Joke;
-import com.adetech.wisecracker.ui.JokeList.JokeListactivity;
 
-import java.util.Collections;
 import java.util.List;
 
 public class SavedJokeListActivity extends AppCompatActivity implements  SavedJokeListAdapter.JokeListAdapterOnItemClickHandler, SavedJokeListAdapter.ShowJokeSaveItemCLickHandler
@@ -33,6 +31,8 @@ public class SavedJokeListActivity extends AppCompatActivity implements  SavedJo
 
     private SavedJokeListAdapter mAdapter;
 
+    private TextView mEmptyTextView;
+
     public static Intent newIntent(Context packageContext) {
         Intent intent = new Intent(packageContext, SavedJokeListActivity.class);
 
@@ -43,9 +43,10 @@ public class SavedJokeListActivity extends AppCompatActivity implements  SavedJo
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_jokes);
+        setContentView(R.layout.saved_jokes_list);
 
         mAdapter = setupRecyclerView();
+        mEmptyTextView = findViewById(R.id.empty);
 
        mSavedJokeListViewModel = ViewModelProviders.of(this).get(SavedJokeListViewModel.class);
 
@@ -55,7 +56,20 @@ public class SavedJokeListActivity extends AppCompatActivity implements  SavedJo
             public void onChanged(@Nullable List<Joke> jokes)
             {
 
-                mAdapter.setJokes(jokes);
+                if (jokes != null)
+                {
+                    if (jokes.isEmpty())
+                    {
+                        mEmptyTextView.setVisibility(View.VISIBLE);
+                        mRecyclerView.setVisibility(View.INVISIBLE);
+                    } else
+                    {
+                        mAdapter.setJokes(jokes);
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        mEmptyTextView.setVisibility(View.INVISIBLE);
+                    }
+                }
+
             }
         });
     }
@@ -63,14 +77,12 @@ public class SavedJokeListActivity extends AppCompatActivity implements  SavedJo
     private SavedJokeListAdapter setupRecyclerView()
     {
         mRecyclerView = findViewById(R.id.recyclerview_jokeList);
-
         final SavedJokeListAdapter adapter = new  SavedJokeListAdapter(this, this, this);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        mRecyclerView.setHasFixedSize(true);
 
         return adapter;
-
     }
 
     @Override

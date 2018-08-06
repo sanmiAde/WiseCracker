@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.adetech.wisecracker.R;
 import com.adetech.wisecracker.data.database.Joke;
 
-
-
 import java.util.List;
 
 public class SavedJokeListAdapter extends RecyclerView.Adapter<SavedJokeListAdapter.SavedJokeViewHolder>
@@ -51,7 +49,7 @@ public class SavedJokeListAdapter extends RecyclerView.Adapter<SavedJokeListAdap
     @Override
     public SavedJokeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.recyclerview_joke_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.recyclerview_saved_jokes_item, parent, false);
 
         return new SavedJokeViewHolder(view);
     }

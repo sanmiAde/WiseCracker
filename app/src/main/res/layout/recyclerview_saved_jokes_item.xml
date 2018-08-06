@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
     android:layout_marginBottom="0dp"
-    android:layout_marginTop="0dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:layout_marginTop="0dp">
 
     <TextView
         android:id="@+id/joke"

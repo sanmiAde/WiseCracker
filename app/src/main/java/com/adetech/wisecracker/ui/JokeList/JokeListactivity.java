@@ -1,22 +1,18 @@
 package com.adetech.wisecracker.ui.JokeList;
 
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.adetech.wisecracker.R;
@@ -59,6 +55,11 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
 
     private JokeListAdapter setupRecyclerView()
     {
@@ -67,6 +68,7 @@ public class JokeListactivity extends AppCompatActivity implements JokeListAdapt
         final JokeListAdapter adapter = new JokeListAdapter(this, this, this);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
 
 
         return adapter;
